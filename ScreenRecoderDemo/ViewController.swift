@@ -31,6 +31,7 @@ class ViewController: UIViewController,ScreenRecorderDelegate {
     func writeBackgroundFrameInContext(_ contextRef:CGContext)
     {
         print("unimplemented")
+        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
