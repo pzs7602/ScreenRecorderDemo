@@ -1,0 +1,299 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A4979AB71D280D7A000E7AD2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4979AB61D280D7A000E7AD2 /* AppDelegate.swift */; };
+		A4979AB91D280D7A000E7AD2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4979AB81D280D7A000E7AD2 /* ViewController.swift */; };
+		A4979ABC1D280D7A000E7AD2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4979ABA1D280D7A000E7AD2 /* Main.storyboard */; };
+		A4979ABE1D280D7A000E7AD2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4979ABD1D280D7A000E7AD2 /* Assets.xcassets */; };
+		A4979AC11D280D7A000E7AD2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4979ABF1D280D7A000E7AD2 /* LaunchScreen.storyboard */; };
+		A4979AC91D280D9D000E7AD2 /* ScreenRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4979AC81D280D9D000E7AD2 /* ScreenRecorder.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A4979AB31D280D7A000E7AD2 /* ScreenRecoderDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScreenRecoderDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A4979AB61D280D7A000E7AD2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A4979AB81D280D7A000E7AD2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A4979ABB1D280D7A000E7AD2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A4979ABD1D280D7A000E7AD2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A4979AC01D280D7A000E7AD2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A4979AC21D280D7A000E7AD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A4979AC81D280D9D000E7AD2 /* ScreenRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenRecorder.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A4979AB01D280D7A000E7AD2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A4979AAA1D280D7A000E7AD2 = {
+			isa = PBXGroup;
+			children = (
+				A4979AB51D280D7A000E7AD2 /* ScreenRecoderDemo */,
+				A4979AB41D280D7A000E7AD2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A4979AB41D280D7A000E7AD2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A4979AB31D280D7A000E7AD2 /* ScreenRecoderDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A4979AB51D280D7A000E7AD2 /* ScreenRecoderDemo */ = {
+			isa = PBXGroup;
+			children = (
+				A4979AB61D280D7A000E7AD2 /* AppDelegate.swift */,
+				A4979AB81D280D7A000E7AD2 /* ViewController.swift */,
+				A4979ABA1D280D7A000E7AD2 /* Main.storyboard */,
+				A4979ABD1D280D7A000E7AD2 /* Assets.xcassets */,
+				A4979ABF1D280D7A000E7AD2 /* LaunchScreen.storyboard */,
+				A4979AC21D280D7A000E7AD2 /* Info.plist */,
+				A4979AC81D280D9D000E7AD2 /* ScreenRecorder.swift */,
+			);
+			path = ScreenRecoderDemo;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A4979AB21D280D7A000E7AD2 /* ScreenRecoderDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A4979AC51D280D7A000E7AD2 /* Build configuration list for PBXNativeTarget "ScreenRecoderDemo" */;
+			buildPhases = (
+				A4979AAF1D280D7A000E7AD2 /* Sources */,
+				A4979AB01D280D7A000E7AD2 /* Frameworks */,
+				A4979AB11D280D7A000E7AD2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ScreenRecoderDemo;
+			productName = ScreenRecoderDemo;
+			productReference = A4979AB31D280D7A000E7AD2 /* ScreenRecoderDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A4979AAB1D280D7A000E7AD2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "pan zhansheng";
+				TargetAttributes = {
+					A4979AB21D280D7A000E7AD2 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+				};
+			};
+			buildConfigurationList = A4979AAE1D280D7A000E7AD2 /* Build configuration list for PBXProject "ScreenRecoderDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A4979AAA1D280D7A000E7AD2;
+			productRefGroup = A4979AB41D280D7A000E7AD2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A4979AB21D280D7A000E7AD2 /* ScreenRecoderDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A4979AB11D280D7A000E7AD2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A4979AC11D280D7A000E7AD2 /* LaunchScreen.storyboard in Resources */,
+				A4979ABE1D280D7A000E7AD2 /* Assets.xcassets in Resources */,
+				A4979ABC1D280D7A000E7AD2 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A4979AAF1D280D7A000E7AD2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A4979AB91D280D7A000E7AD2 /* ViewController.swift in Sources */,
+				A4979AB71D280D7A000E7AD2 /* AppDelegate.swift in Sources */,
+				A4979AC91D280D9D000E7AD2 /* ScreenRecorder.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		A4979ABA1D280D7A000E7AD2 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A4979ABB1D280D7A000E7AD2 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		A4979ABF1D280D7A000E7AD2 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A4979AC01D280D7A000E7AD2 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A4979AC31D280D7A000E7AD2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A4979AC41D280D7A000E7AD2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A4979AC61D280D7A000E7AD2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = ScreenRecoderDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gdou.ScreenRecoderDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A4979AC71D280D7A000E7AD2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = ScreenRecoderDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gdou.ScreenRecoderDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A4979AAE1D280D7A000E7AD2 /* Build configuration list for PBXProject "ScreenRecoderDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A4979AC31D280D7A000E7AD2 /* Debug */,
+				A4979AC41D280D7A000E7AD2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A4979AC51D280D7A000E7AD2 /* Build configuration list for PBXNativeTarget "ScreenRecoderDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A4979AC61D280D7A000E7AD2 /* Debug */,
+				A4979AC71D280D7A000E7AD2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A4979AAB1D280D7A000E7AD2 /* Project object */;
+}
