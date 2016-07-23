@@ -13,14 +13,14 @@ import QuartzCore
 
 public typealias VideoCompletionBlock = (Void)->Void
 public protocol ScreenRecorderDelegate{
-    func writeBackgroundFrameInContext(contextRef:CGContextRef)
+    func writeBackgroundFrameInContext(_ contextRef:CGContext)
 }
 
 public class ScreenRecorder:NSObject{
     var videoWriter:AVAssetWriter?
     var videoWriterInput:AVAssetWriterInput?
     var audioWriterInput:AVAssetWriterInput?
-    public var videoURL:NSURL?
+    public var videoURL:URL?
     var avAdapter:AVAssetWriterInputPixelBufferAdaptor?
     var displayLink:CADisplayLink?
     var firstTimeStamp:CFTimeInterval?
@@ -28,16 +28,16 @@ public class ScreenRecorder:NSObject{
     var isRecording:Bool = false
     public var delegate:ScreenRecorderDelegate?
     //
-    var render_queue:dispatch_queue_t?
-    var append_pixelBuffer_queue:dispatch_queue_t?
-    var frameRenderingSemaphore:dispatch_semaphore_t?
-    var pixelAppendSemaphore:dispatch_semaphore_t?
+    var render_queue:DispatchQueue?
+    var append_pixelBuffer_queue:DispatchQueue?
+    var frameRenderingSemaphore:DispatchSemaphore?
+    var pixelAppendSemaphore:DispatchSemaphore?
     
     var viewSize:CGSize?
     var scale:CGFloat?
     
-    var rgbColorSpace:CGColorSpaceRef?
-    var outputBufferPool:CVPixelBufferPoolRef?
+    var rgbColorSpace:CGColorSpace?
+    var outputBufferPool:CVPixelBufferPool?
     public static let sharedInstance = ScreenRecorder()
     public override convenience init()
     {
@@ -46,18 +46,18 @@ public class ScreenRecorder:NSObject{
     public init(path:String)
     {
         super.init()
-        self.videoURL = NSURL(fileURLWithPath: path)
-        let window = UIApplication.sharedApplication().delegate!.window!
+        self.videoURL = URL(fileURLWithPath: path)
+        let window = UIApplication.shared().delegate!.window!
         viewSize = window!.bounds.size
-        scale = UIScreen.mainScreen().scale
-        append_pixelBuffer_queue = dispatch_queue_create("ASScreenRecorder.append_queue", DISPATCH_QUEUE_SERIAL)
-        render_queue = dispatch_queue_create("ASScreenRecorder.render_queue", DISPATCH_QUEUE_SERIAL)
-        dispatch_set_target_queue(render_queue, dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0));
-        frameRenderingSemaphore = dispatch_semaphore_create(1)
-        pixelAppendSemaphore = dispatch_semaphore_create(1)
+        scale = UIScreen.main().scale
+        append_pixelBuffer_queue = DispatchQueue(label: "ASScreenRecorder.append_queue", attributes: DispatchQueueAttributes.serial)
+        render_queue = DispatchQueue(label: "ASScreenRecorder.render_queue", attributes: DispatchQueueAttributes.serial)
+        render_queue?.setTarget(queue: DispatchQueue.global( attributes: DispatchQueue.GlobalAttributes.qosUserInitiated));
+        frameRenderingSemaphore = DispatchSemaphore(value: 1)
+        pixelAppendSemaphore = DispatchSemaphore(value: 1)
         // try to use bluetooth mic or any other line-in mic
         do{
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.AllowBluetooth)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.allowBluetooth)
             try AVAudioSession.sharedInstance().setPreferredInput(AVAudioSession.sharedInstance().availableInputs!.last)
             for a in AVAudioSession.sharedInstance().availableInputs!{
                 print("available inputs:\(a.portName)")
@@ -73,32 +73,32 @@ public class ScreenRecorder:NSObject{
     {
         if !isRecording{
             self.setupWriter()
-            isRecording = (self.videoWriter!.status == AVAssetWriterStatus.Writing);
+            isRecording = (self.videoWriter!.status == AVAssetWriterStatus.writing);
             self.displayLink = CADisplayLink(target: self, selector: #selector(writeVideoFrame))
-            self.displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
+            self.displayLink?.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
         }
     }
-    public func stopRecordingWithCompletion(completionBlock:VideoCompletionBlock)
+    public func stopRecordingWithCompletion(_ completionBlock:VideoCompletionBlock)
     {
         if self.isRecording{
             self.isRecording = false
-            self.displayLink?.removeFromRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
+            self.displayLink?.remove(from: RunLoop.main, forMode: RunLoopMode.commonModes)
             self.completeRecordingSession(completionBlock)
         }
     }
     func setupWriter()
     {
         rgbColorSpace = CGColorSpaceCreateDeviceRGB()
-        let bufferAttributes:[NSString:NSObject] = [kCVPixelBufferPixelFormatTypeKey : NSNumber(unsignedInt: kCVPixelFormatType_32BGRA),
+        let bufferAttributes:[NSString:NSObject] = [kCVPixelBufferPixelFormatTypeKey : NSNumber(value: kCVPixelFormatType_32BGRA),
             kCVPixelBufferCGBitmapContextCompatibilityKey : true,
             kCVPixelBufferWidthKey : viewSize!.width * scale!,
             kCVPixelBufferHeightKey : viewSize!.height * scale!,
             kCVPixelBufferBytesPerRowAlignmentKey : viewSize!.width * scale! * 4
         ]
         outputBufferPool = nil
-        CVPixelBufferPoolCreate(nil, nil, (bufferAttributes as CFDictionaryRef), &outputBufferPool)
+        CVPixelBufferPoolCreate(nil, nil, (bufferAttributes as CFDictionary), &outputBufferPool)
         do{
-            self.videoWriter = try AVAssetWriter(URL: self.videoURL != nil ? self.videoURL! : self.tempFileURL(), fileType: AVFileTypeQuickTimeMovie)
+            self.videoWriter = try AVAssetWriter(url: self.videoURL != nil ? self.videoURL! : self.tempFileURL(), fileType: AVFileTypeQuickTimeMovie)
         }
         catch(let error as NSError?){
             print("error=\(error?.description)")
@@ -114,7 +114,7 @@ public class ScreenRecorder:NSObject{
         self.videoWriterInput?.expectsMediaDataInRealTime = true
         self.videoWriterInput?.transform = self.videoTransformForDeviceOrientation()
         self.avAdapter = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: self.videoWriterInput!, sourcePixelBufferAttributes: nil)
-        self.videoWriter?.addInput(self.videoWriterInput!)
+        self.videoWriter?.add(self.videoWriterInput!)
         // add audio input
 //        let audioSettings = [
 //            AVFormatIDKey:NSNumber(unsignedInt: kAudioFormatMPEG4AAC),
@@ -126,13 +126,13 @@ public class ScreenRecorder:NSObject{
 //        self.audioWriterInput?.expectsMediaDataInRealTime = true
 //        self.videoWriter?.addInput(self.audioWriterInput!)
         self.videoWriter?.startWriting()
-        self.videoWriter?.startSessionAtSourceTime(CMTimeMake(0, 1000))
+        self.videoWriter?.startSession(atSourceTime: CMTimeMake(0, 1000))
         
     }
     func videoTransformForDeviceOrientation() -> CGAffineTransform
     {
         var videoTransform:CGAffineTransform
-        switch (UIDevice.currentDevice().orientation) {
+        switch (UIDevice.current().orientation) {
 //        case UIDeviceOrientation.LandscapeLeft:
 //            videoTransform = CGAffineTransformMakeRotation(CGFloat(-M_PI_2))
 //            break
@@ -143,22 +143,22 @@ public class ScreenRecorder:NSObject{
 //            videoTransform = CGAffineTransformMakeRotation(CGFloat(M_PI))
 //            break
         default:
-            videoTransform = CGAffineTransformIdentity;
+            videoTransform = CGAffineTransform.identity;
         }
         return videoTransform
     }
-    func tempFileURL() -> NSURL
+    func tempFileURL() -> URL
     {
-        let outputPath = (NSHomeDirectory() as NSString).stringByAppendingPathComponent("tmp/screenCapture.mp4")
+        let outputPath = (NSHomeDirectory() as NSString).appendingPathComponent("tmp/screenCapture.mp4")
         self.removeTempFilePath(outputPath)
-        return NSURL(fileURLWithPath: outputPath)
+        return URL(fileURLWithPath: outputPath)
     }
-    func removeTempFilePath(filePath:String)
+    func removeTempFilePath(_ filePath:String)
     {
-        let fileManager = NSFileManager.defaultManager()
-        if fileManager.fileExistsAtPath(filePath){
+        let fileManager = FileManager.default
+        if fileManager.fileExists(atPath: filePath){
             do{
-                try fileManager.removeItemAtPath(filePath)
+                try fileManager.removeItem(atPath: filePath)
             }
             catch(let error as NSError){
                 print("error:\(error.description)")
@@ -166,14 +166,14 @@ public class ScreenRecorder:NSObject{
             catch{}
         }
     }
-    func completeRecordingSession(completionBlock:VideoCompletionBlock)
+    func completeRecordingSession(_ completionBlock:VideoCompletionBlock)
     {
-        dispatch_sync(append_pixelBuffer_queue!){
+        append_pixelBuffer_queue!.sync{
             self.videoWriterInput?.markAsFinished()
-            self.videoWriter?.finishWritingWithCompletionHandler{
+            self.videoWriter?.finishWriting{
                 let completion:(Void)->Void = {
                     self.cleanUp()
-                    dispatch_async(dispatch_get_main_queue()){
+                    DispatchQueue.main.async{
                         completionBlock()
                     }
                 }
@@ -212,11 +212,11 @@ public class ScreenRecorder:NSObject{
 
     func writeVideoFrame()
     {
-        if dispatch_semaphore_wait(frameRenderingSemaphore!, DISPATCH_TIME_NOW) != 0{
+        if frameRenderingSemaphore!.wait(timeout: DispatchTime.now()) != 0{
             return
         }
-        dispatch_async(render_queue!){
-            if !self.videoWriterInput!.readyForMoreMediaData{
+        render_queue!.async{
+            if !self.videoWriterInput!.isReadyForMoreMediaData{
                 return
             }
             if (self.firstTimeStamp == nil){
@@ -224,18 +224,18 @@ public class ScreenRecorder:NSObject{
             }
             let elapsed = (self.displayLink!.timestamp - self.firstTimeStamp!)
             let time = CMTimeMakeWithSeconds(elapsed, 1000)
-            var pixelBuffer:CVPixelBufferRef? = nil
-            let bitmapContext:CGContextRef = self.createPixelBufferAndBitmapContext(&pixelBuffer)
+            var pixelBuffer:CVPixelBuffer? = nil
+            let bitmapContext:CGContext = self.createPixelBufferAndBitmapContext(pixelBuffer)
             if let _ = self.delegate{
                 self.delegate!.writeBackgroundFrameInContext(bitmapContext)
             }
             // draw each window into the context (other windows include UIKeyboard, UIAlert)
             // FIX: UIKeyboard is currently only rendered correctly in portrait orientation
-            dispatch_sync(dispatch_get_main_queue()){
+            DispatchQueue.main.sync{
                 UIGraphicsPushContext(bitmapContext)
                 
-                    for window:UIWindow in UIApplication.sharedApplication().windows {
-                        window.drawViewHierarchyInRect(CGRectMake(0, 0, self.viewSize!.width, self.viewSize!.height), afterScreenUpdates:false)
+                    for window:UIWindow in UIApplication.shared().windows {
+                        window.drawHierarchy(in: CGRect(x: 0, y: 0, width: self.viewSize!.width, height: self.viewSize!.height), afterScreenUpdates:false)
                     }
                 
                 UIGraphicsPopContext()
@@ -244,39 +244,40 @@ public class ScreenRecorder:NSObject{
             // must not overwhelm the queue with pixelBuffers, therefore:
             // check if _append_pixelBuffer_queue is ready
             // if it’s not ready, release pixelBuffer and bitmapContext
-            if dispatch_semaphore_wait(self.pixelAppendSemaphore!, DISPATCH_TIME_NOW) == 0{
-                dispatch_async(self.append_pixelBuffer_queue!){
-                    let success = self.avAdapter!.appendPixelBuffer(pixelBuffer!, withPresentationTime:time)
+            if self.pixelAppendSemaphore!.wait(timeout: DispatchTime.now()) == 0{
+                self.append_pixelBuffer_queue!.async{
+                    let success = self.avAdapter!.append(pixelBuffer!, withPresentationTime:time)
                     if !success{
                         print("Warning: Unable to write buffer to video")
                     }
-                    CVPixelBufferUnlockBaseAddress(pixelBuffer!, 0)
-                    dispatch_semaphore_signal(self.pixelAppendSemaphore!)
+                    CVPixelBufferUnlockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: CVOptionFlags(0)))
+                    self.pixelAppendSemaphore!.signal()
                 }
             }
             else{
-                CVPixelBufferUnlockBaseAddress(pixelBuffer!, 0)
+                CVPixelBufferUnlockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: CVOptionFlags(0)))
             }
-            dispatch_semaphore_signal(self.frameRenderingSemaphore!)
+            self.frameRenderingSemaphore!.signal()
         }
     }
-    func createPixelBufferAndBitmapContext(inout pixelBuffer:CVPixelBufferRef?) -> CGContextRef
+    func createPixelBufferAndBitmapContext(_ pixelBuffer:CVPixelBuffer?) -> CGContext
     {
-        var pBuffer:CVPixelBufferRef?
+        var pixelBuffer = pixelBuffer
+        var pBuffer:CVPixelBuffer?
         CVPixelBufferPoolCreatePixelBuffer(nil, outputBufferPool!,&pBuffer)
-        CVPixelBufferLockBaseAddress(pBuffer!, 0)
+        CVPixelBufferLockBaseAddress(pBuffer!, CVPixelBufferLockFlags(rawValue: CVOptionFlags(0)))
         
-        var bitmapContext:CGContextRef?
-        let bitmapInfo:CGBitmapInfo = [.ByteOrder32Little,CGBitmapInfo(rawValue:CGImageAlphaInfo.PremultipliedFirst.rawValue)]
-        bitmapContext = CGBitmapContextCreate(CVPixelBufferGetBaseAddress(pBuffer!),
-                                              CVPixelBufferGetWidth(pBuffer!),
-                                              CVPixelBufferGetHeight(pBuffer!),
-                                              8, CVPixelBufferGetBytesPerRow(pBuffer!), rgbColorSpace,
-                                              bitmapInfo.rawValue
+        var bitmapContext:CGContext?
+        let bitmapInfo:CGBitmapInfo = [.byteOrder32Little,CGBitmapInfo(rawValue:CGImageAlphaInfo.premultipliedFirst.rawValue)]
+        bitmapContext = CGContext(data: CVPixelBufferGetBaseAddress(pBuffer!),
+                                              width: CVPixelBufferGetWidth(pBuffer!),
+                                              height: CVPixelBufferGetHeight(pBuffer!),
+                                              bitsPerComponent: 8, bytesPerRow: CVPixelBufferGetBytesPerRow(pBuffer!), space: rgbColorSpace!,
+                                              bitmapInfo: bitmapInfo.rawValue
         )
-        CGContextScaleCTM(bitmapContext, scale!, scale!)
+        bitmapContext?.scale(x: scale!, y: scale!)
         let flipVertical = CGAffineTransformMake(1, 0, 0, -1, 0, viewSize!.height);
-        CGContextConcatCTM(bitmapContext, flipVertical);
+        bitmapContext?.concatCTM(flipVertical);
         pixelBuffer = pBuffer
         return bitmapContext!
     }

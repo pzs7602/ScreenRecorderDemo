@@ -17,7 +17,7 @@ class ViewController: UIViewController,ScreenRecorderDelegate {
         recorder?.delegate = self
     }
 
-    @IBAction func startStop(sender: AnyObject) {
+    @IBAction func startStop(_ sender: AnyObject) {
         if self.recorder!.isRecording{
             self.recorder!.stopRecordingWithCompletion{
                 print("record end")
@@ -28,7 +28,7 @@ class ViewController: UIViewController,ScreenRecorderDelegate {
             self.recorder!.startRecording()
         }
     }
-    func writeBackgroundFrameInContext(contextRef:CGContextRef)
+    func writeBackgroundFrameInContext(_ contextRef:CGContext)
     {
         print("unimplemented")
     }

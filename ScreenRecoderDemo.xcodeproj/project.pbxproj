@@ -94,11 +94,14 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "pan zhansheng";
 				TargetAttributes = {
 					A4979AB21D280D7A000E7AD2 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = MY5Q8FA2DZ;
+						DevelopmentTeamName = "south china normal university (null)";
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -257,8 +260,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ScreenRecoderDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.gdou.ScreenRecoderDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.edu.scnu.ScreenRecoderDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -268,8 +272,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ScreenRecoderDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.gdou.ScreenRecoderDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.edu.scnu.ScreenRecoderDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -292,6 +298,7 @@
 				A4979AC71D280D7A000E7AD2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
